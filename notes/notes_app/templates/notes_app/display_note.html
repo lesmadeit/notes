@@ -1,0 +1,21 @@
+{% extends 'notes_app/main.html' %} {% block content %}
+
+<div class="note-item__container note">
+    <div class="note-tools-container">
+        <span class="note-date"> {{ note.created }} </span>
+        <div class="note-options">
+            <button class="icon-btn option" title="Edit" onclick="window.location.href=`{% url 'edit-note' note.id %}`;">
+                <i class="fa-solid fa-pencil">Edit</i>
+            </button>
+            <button class="icon-btn option" title="Delete" onclick="window.location.href=`{% url 'delete-note' note.id %}`;">
+                <i class="fa-solid fa-trash">Delete</i>
+            </button>
+        </div>
+    </div>
+
+    <h2 class="note__title">{{ note.title }}</h2>
+    <div class="note__body">{{ note.body|linebreaks }}</div>
+
+    <div class="divider"></div>
+</div>
+{% endblock content %}
