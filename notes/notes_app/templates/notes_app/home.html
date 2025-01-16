@@ -1,49 +1,36 @@
-{% extends 'notes_app/main.html' %} {% block content %}
+{% extends 'notes_app/main.html' %}
 
-<div class="options-container">
-    <button class="icon-btn add-notes" title="Add Note" onclick="window.location.href=`{% url 'add-note' %}`;">
-        <i class="fa-solid fa-plus"></i>
-    </button>
-    <div class="search-notes">
-        <form action="" method="GET">
-            <input type="text" name="q" class="search-notes__input-box" placeholder="Search Notes"/>
-            <button type="submit" class="icon-btn search-notes__icon" title="Search Note">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+{% block content %}
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="/" class="logo d-flex align-items-center me-auto">
+            <h1 class="sitename">Notes</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="{% url 'notes' %}">Notes</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
     </div>
-</div>
+</header>
 
-<div class="notes-container">
-    {% if notes %} {% for note in notes %}
-    <div class="note-item__container note-item">
-        <h3 class="note-item__title" title="{{ note.title }}">
-            <a href="{% url 'display-note' note.id %}">{{ note.title }}</a>
-        </h3>
-
-        <p class="note-item__body">
-            {{ note.body|slice:420 }}{% if note.body|length > 50 %}...
-            <a href="{% url 'display-note' note.id %}" class="note-item__link" title="View More">View More</a>
-            {% endif %}
-        </p>
-
-        <div class="divider"></div>
-
-        <div class="note-tools-container">
-            <span class="note-date"> {{ note.created|date }} </span>
-            <div class="note-options">
-                <button class="icon-btn option" title="Edit" onclick="window.location.href=`{% url 'edit-note' note.id %}`;">
-                    <i class="fa-solid fa-pencil">Edit</i>
-                </button>
-                <button class="icon-btn option" title="Delete" onclick="window.location.href=`{% url 'delete-note' note.id %}`;">
-                    <i class="fa-solid fa-trash">Delete</i>
-                </button>
+<main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
+                    <h1>Notes App</h1>
+                    <p>Notes App made with Django and Bootstrap</p>
+                    <div class="d-flex">
+                        <a href="{% url 'notes' %}" class="btn-get-started">View Notes</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    {% endfor %} {% else %}
-    <h2 class="note-item__message">No Notes Found!</h2>
-    <button class="btn" onclick="window.location.href=`{% url 'add-note' %}`;">Add Notes</button>
-    {% endif %}
-</div>
+    </section>
+</main>
 {% endblock content %}
