@@ -1,73 +1,55 @@
-{% load static %}
-<html lang="en">
-    <head>
-        <meta charset="UTF-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="{% static 'notes_app/css/style.css' %}" />
-        <title>Notes App</title>
-    </head>
-    <header class="header">
-        <a href="{% url 'home' %}" class="logo-text" title="DjangoNotesApp">
-          NotesApp
-        </a>
-    </header>
-    <body>
+{% extends 'notes_app/main.html' %} {% block content %}
+<br><br><br><br>
 
+<div class="options-container">
     
-
-
-
-        <div class="options-container">
-            <button class="icon-btn add-notes" title="Add Note" onclick="window.location.href=`{% url 'add-note' %}`;">
-                <i class="fa-solid fa-plus"></i>
+    <div class="search-notes">
+        <form action="" method="GET">
+            <input type="text" name="q" class="search-notes__input-box" placeholder="Search Notes"/>
+            <button type="submit" class="search-notes__search-btn">
+                <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
             </button>
-            <div class="search-notes">
-                <form action="" method="GET">
-                    <input type="text" name="q" class="search-notes__input-box" placeholder="Search Notes"/>
-                    <button type="submit" class="icon-btn search-notes__icon" title="Search Note">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
+        </form>
+        
+    </div>
+    
+</div>
+
+<button style="display: block; margin: 20px auto; text-align: center; " class="btn" onclick="window.location.href=`{% url 'add-note' %}`;">Add Notes</button>
+
+
+<div class="notes-container">
+    {% if notes %} {% for note in notes %}
+    
+    <div class="note-item__container note-item">
+        <h3 class="note-item__title" title="{{ note.title }}">
+            <a href="{% url 'display-note' note.id %}">{{ note.title }}</a>
+        </h3>
+
+        <p class="note-item__body">
+            {{ note.body|slice:420 }}{% if note.body|length > 50 %}...
+            <a href="{% url 'display-note' note.id %}" class="note-item__link" title="View More">View More</a>
+            {% endif %}
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="note-tools-container">
+            <span class="note-date"> {{ note.created|date }} </span>
+            <div class="note-options">
+                <button class="icon-btn option" title="Edit" onclick="window.location.href=`{% url 'edit-note' note.id %}`;">
+                    <i class="bi-solid bi-pencil"></i>
+                </button>
+                <button class="icon-btn option" title="Delete" onclick="window.location.href=`{% url 'delete-note' note.id %}`;">
+                    <i class="bi-solid bi-trash"></i>
+                </button>
             </div>
         </div>
-
-        <div class="notes-container">
-            {% if notes %}
-                {% for note in notes %}
-                    <div class="note-item__container note-item">
-                        <h3 class="note-item__title" title="{{ note.title }}">
-                            <a href="{% url 'display-note' note.id %}">{{ note.title }}</a>
-                        </h3>
-                        <p class="note-item__body">
-                            {{ note.body|slice:420 }}
-                            {% if note.body|length > 50 %}...
-                                <a href="{% url 'display-note' note.id %}" class="note-item__link" title="View More">View More</a>
-                            {% endif %}
-                        </p>
-                        <div class="divider"></div>
-                        <div class="note-tools-container">
-                            <span class="note-date">{{ note.created|date }}</span>
-                            <div class="note-options">
-                                <button class="icon-btn option" title="Edit" onclick="window.location.href=`{% url 'edit-note' note.id %}`;">
-                                    <i class="fa-solid fa-pencil">Edit</i>
-                                </button>
-                                <button class="icon-btn option" title="Delete" onclick="window.location.href=`{% url 'delete-note' note.id %}`;">
-                                    <i class="fa-solid fa-trash">Delete</i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <h2 class="note-item__message">No Notes Found!</h2>
-                <button class="btn" onclick="window.location.href=`{% url 'add-note' %}`;">Add Notes</button>
-            {% endif %}
-            {% block content %}
-            {% endblock content %}
-        </div>
-    </body>
-
-
-
-</html>
+    </div>
+    {% endfor %} {% else %}
+    <h2 class="note-item__message">No Notes Found!</h2>
+    
+    {% endif %}
+</div>
+<br><br><br><br>
+{% endblock content %}

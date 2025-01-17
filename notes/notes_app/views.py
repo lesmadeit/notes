@@ -33,7 +33,7 @@ def delete_note(request, pk):
     note = Note.objects.get(id=pk)
     if request.method == "POST":
         note.delete()
-        return redirect("home")
+        return redirect("notes")
     context = {"note": note}
     return render(request, "notes_app/delete_note.html", context)
 
