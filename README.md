@@ -1,0 +1,1 @@
+A simple notes application made with Django for the backend and bootstrap for the frontend templates
